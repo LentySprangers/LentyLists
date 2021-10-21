@@ -9,14 +9,18 @@
 
     <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
+        android:id="@+id/input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
         android:hint="@string/hint_add_item"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:autofillHints="" />
+
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add_item_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_item_button"

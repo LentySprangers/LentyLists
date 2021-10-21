@@ -18,8 +18,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 public class ContentMain extends AppCompatActivity {
-    ArrayList<String> listItems = new ArrayList<String>();
-    ArrayAdapter<String> adapter;
+    ArrayList<Item> listItems = new ArrayList<Item>();
+    ArrayAdapter<Item> adapter;
     private ListView mListView;
 
     @Override
@@ -29,15 +29,13 @@ public class ContentMain extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        adapter = new ArrayAdapter<String>(this,
+        adapter = new ArrayAdapter<Item>(this,
                 android.R.layout.simple_list_item_1,
                 listItems);
         setListAdapter(adapter);
 
 
-        for (int i = 0; i <= 20; i++) {
-            this.listItems.add("Lenty is the best!");
-        }
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
