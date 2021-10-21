@@ -9,16 +9,14 @@
     android:orientation="vertical"
     tools:context=".ContentMain">
 
+    <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
+
     <ListView
         android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/InnerRelativeLayout"
-        android:layout_alignParentTop="true"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="45dp">
-
-
     </ListView>
 
 
@@ -29,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:contentDescription="addItem"
+            android:contentDescription="@string/fab_add_item"
             android:scaleType="center"
             app:srcCompat="@android:drawable/ic_input_add" />
 

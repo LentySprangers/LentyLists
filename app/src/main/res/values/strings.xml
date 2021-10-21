@@ -9,4 +9,10 @@
 
     <string name="hello_first_fragment">first item</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!--activity_add_item-->
+    <string name="add_item_page_title">add a new item to the list</string>
+    <string name="add_item_button">Add to list</string>
+    <string name="hint_add_item">Enter new item</string>
+
+    <string name="fab_add_item">add item</string>
 </resources>

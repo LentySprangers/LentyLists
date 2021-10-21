@@ -1,5 +1,6 @@
 package com.example.lentylists;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,9 +35,22 @@ public class ContentMain extends AppCompatActivity {
         setListAdapter(adapter);
 
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 20; i++) {
             this.listItems.add("Lenty is the best!");
         }
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddItemPage();
+            }
+        });
+    }
+
+    public void openAddItemPage() {
+        Intent intent = new Intent(this, AddItemPage.class);
+        startActivity(intent);
     }
 
     private void setListAdapter(ListAdapter adapter) {
