@@ -7,23 +7,106 @@
     android:orientation="vertical"
     tools:context=".AddItemPage">
 
-    <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <EditText
         android:id="@+id/input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:hint="@string/hint_add_item"
         android:layout_gravity="center"
-        android:autofillHints="" />
+        android:autofillHints=""
+        android:hint="@string/hint_add_item"
+        android:inputType="text"
+        android:padding="22dp" />
 
-
-    <Button
-        android:id="@+id/add_item_button"
+    <TextView
+        android:id="@+id/in_stock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_item_button"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="In stock:" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/decrement_in_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/in_stock_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/increment_in_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/in_use"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="In use:" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/decrement_in_use"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/in_use_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="0" />
+
+        <Button
+            android:id="@+id/increment_in_use"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/add_item_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/add_item_button" />
+    </LinearLayout>
 </LinearLayout>

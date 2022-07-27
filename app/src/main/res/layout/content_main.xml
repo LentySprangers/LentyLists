@@ -11,20 +11,16 @@
 
     <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
 
+
     <ListView
         android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="45dp">
-
-
-
     </ListView>
 
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
