@@ -106,7 +106,7 @@ public class AddItemPage extends AppCompatActivity {
                             .setAction("Action", null).show();
                 } else {
                     itemName = itemName.trim().substring(0, 1).toUpperCase() + itemName.substring(1).toLowerCase();
-                    addData(itemName, view);
+                    addData(itemName, stockCounter, useCounter, view);
                     finish();
                 }
             }
@@ -141,10 +141,10 @@ public class AddItemPage extends AppCompatActivity {
         inUseCounter.setText("" + useCounter);
     }
 
-    private void addData(String itemName, View view) {
+    private void addData(String itemName, int stockCounter, int useCounter, View view) {
         Log.d(TAG, "addData was called");
 
-        boolean insertData = databaseHelper.addData(itemName);
+        boolean insertData = databaseHelper.addData(itemName, stockCounter, useCounter);
 
         if (insertData) {
             Snackbar.make(view, itemName + " was added to list", Snackbar.LENGTH_LONG)

@@ -18,7 +18,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL4 = "inUse";
 
 
-
     public DatabaseHelper(Context context) {
         super(context, TABLE_NAME, null, 1);
     }
@@ -41,12 +40,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addData(String item) {
+    public boolean addData(String item, int inStock, int inUse) {
         Log.d(TAG, "addData was called");
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL2, item);
+        contentValues.put(COL3, inStock);
+        contentValues.put(COL4, inUse);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
 
