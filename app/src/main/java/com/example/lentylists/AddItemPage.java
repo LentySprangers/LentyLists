@@ -30,7 +30,8 @@ public class AddItemPage extends AppCompatActivity {
     private Button incrementInUse;
     private Button addItemButton;
     private String itemName = "";
-    private DatabaseHelper databaseHelper;
+    private int categoryId;
+    private ItemTable itemTable;
 
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -106,17 +107,18 @@ public class AddItemPage extends AppCompatActivity {
                             .setAction("Action", null).show();
                 } else {
                     itemName = itemName.trim().substring(0, 1).toUpperCase() + itemName.substring(1).toLowerCase();
-                    addData(itemName, stockCounter, useCounter, view);
+                    addData(itemName, stockCounter, useCounter, categoryId, view);
                     finish();
                 }
             }
         });
 
-        databaseHelper = new DatabaseHelper(this);
+        itemTable = new ItemTable(this);
 
     }
 
     private void initCounters() {
+        Log.d(TAG, "initCounters was called");
         stockCounter = 0;
         inStockCounter.setText("" + stockCounter);
         useCounter = 0;
@@ -124,6 +126,7 @@ public class AddItemPage extends AppCompatActivity {
     }
 
     private void changeInStock(int change) {
+        Log.d(TAG, "changeInStock was called");
         stockCounter += change;
         if (stockCounter < 0) {
             stockCounter = 0;
@@ -134,6 +137,7 @@ public class AddItemPage extends AppCompatActivity {
 
 
     private void changeInUse(int change) {
+        Log.d(TAG, "changeInUse was called");
         useCounter += change;
         if (useCounter < 0) {
             useCounter = 0;
@@ -141,10 +145,10 @@ public class AddItemPage extends AppCompatActivity {
         inUseCounter.setText("" + useCounter);
     }
 
-    private void addData(String itemName, int stockCounter, int useCounter, View view) {
+    private void addData(String itemName, int stockCounter, int useCounter, int categoryId, View view) {
         Log.d(TAG, "addData was called");
 
-        boolean insertData = databaseHelper.addData(itemName, stockCounter, useCounter);
+        boolean insertData = itemTable.addData(itemName, stockCounter, useCounter, categoryId);
 
         if (insertData) {
             Snackbar.make(view, itemName + " was added to list", Snackbar.LENGTH_LONG)

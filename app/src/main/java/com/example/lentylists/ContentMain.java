@@ -2,7 +2,6 @@ package com.example.lentylists;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +25,7 @@ public class ContentMain extends AppCompatActivity {
 
     ArrayList<String> listItems = new ArrayList<String>();
     private ListView mListView;
-    DatabaseHelper databaseHelper;
+    ItemTable itemTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class ContentMain extends AppCompatActivity {
         setContentView(R.layout.content_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        databaseHelper = new DatabaseHelper(this);
+        itemTable = new ItemTable(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,10 +55,11 @@ public class ContentMain extends AppCompatActivity {
     private void populateListView() {
         Log.d(TAG, "PopulateListView: Displaying data in ListView");
 
-        Cursor data = databaseHelper.getData();
+        Cursor data = itemTable.getData();
         listItems.clear();
-        while(data.moveToNext()){
+        while (data.moveToNext()) {
             listItems.add(data.getString(1));
+
 
         }
 
@@ -67,6 +67,7 @@ public class ContentMain extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 listItems);
         setListAdapter(adapter);
+
     }
 
     public void openAddItemPage() {
