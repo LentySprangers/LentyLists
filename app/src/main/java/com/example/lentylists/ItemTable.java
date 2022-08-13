@@ -54,7 +54,7 @@ public class ItemTable extends SQLiteOpenHelper {
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
-
+        
         //if date as inserted incorrectly it will return -1
         return result != -1;
     }

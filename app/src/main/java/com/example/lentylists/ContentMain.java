@@ -1,18 +1,16 @@
 package com.example.lentylists;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,10 +20,22 @@ public class ContentMain extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
 
+    private RecyclerView mRecyclerView;
+    private FloatingActionButton mFab;
+    Toolbar toolbar;
 
-    ArrayList<String> listItems = new ArrayList<String>();
-    private ListView mListView;
     ItemTable itemTable;
+    ArrayList<String> listItems = new ArrayList<String>() {
+        {
+            add("test1");
+
+            add("test2");
+
+            add("test3");
+        }
+
+    };
+    InventoryListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,42 +43,25 @@ public class ContentMain extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar = findViewById(R.id.toolbar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.list_items);
+
         setSupportActionBar(toolbar);
         itemTable = new ItemTable(this);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openAddItemPage();
             }
         });
+
+        adapter = new InventoryListAdapter(this, listItems);
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        populateListView();
-    }
-
-    private void populateListView() {
-        Log.d(TAG, "PopulateListView: Displaying data in ListView");
-
-        Cursor data = itemTable.getData();
-        listItems.clear();
-        while (data.moveToNext()) {
-            listItems.add(data.getString(1));
-
-
-        }
-
-        ListAdapter adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,
-                listItems);
-        setListAdapter(adapter);
-
-    }
 
     public void openAddItemPage() {
         Log.d(TAG, "openAddItemPage was called");
@@ -77,20 +70,6 @@ public class ContentMain extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setListAdapter(ListAdapter adapter) {
-        Log.d(TAG, "SetListAdapter was called");
-
-        getListView().setAdapter(adapter);
-    }
-
-    protected ListView getListView() {
-        Log.d(TAG, "getListView was called");
-
-        if (mListView == null) {
-            mListView = (ListView) findViewById(R.id.list_item);
-        }
-        return mListView;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,12 +84,10 @@ public class ContentMain extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "OnOptionsItemSelected was called");
 
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             return true;
         }

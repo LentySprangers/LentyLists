@@ -153,6 +153,7 @@ public class AddItemPage extends AppCompatActivity {
         if (insertData) {
             Snackbar.make(view, itemName + " was added to list", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
+
         } else {
             Snackbar.make(view, "Something went wrong", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
