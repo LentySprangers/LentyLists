@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class ItemTable extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -16,10 +16,11 @@ public class ItemTable extends SQLiteOpenHelper {
     private static final String COL2 = "name";
     private static final String COL3 = "inStock";
     private static final String COL4 = "inUse";
+
     private static final String COL5 = "categoryId";
 
 
-    public ItemTable(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, TABLE_NAME, null, 1);
     }
 
@@ -54,7 +55,7 @@ public class ItemTable extends SQLiteOpenHelper {
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
-        
+
         //if date as inserted incorrectly it will return -1
         return result != -1;
     }
@@ -62,8 +63,12 @@ public class ItemTable extends SQLiteOpenHelper {
     public Cursor getData() {
         Log.d(TAG, "getData was called");
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
-        return db.rawQuery(query, null);
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
     }
 }

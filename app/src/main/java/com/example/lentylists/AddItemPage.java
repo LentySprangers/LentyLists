@@ -31,7 +31,7 @@ public class AddItemPage extends AppCompatActivity {
     private Button addItemButton;
     private String itemName = "";
     private int categoryId;
-    private ItemTable itemTable;
+    private DatabaseHelper databaseHelper;
 
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -113,7 +113,7 @@ public class AddItemPage extends AppCompatActivity {
             }
         });
 
-        itemTable = new ItemTable(this);
+        databaseHelper = new DatabaseHelper(this);
 
     }
 
@@ -148,7 +148,7 @@ public class AddItemPage extends AppCompatActivity {
     private void addData(String itemName, int stockCounter, int useCounter, int categoryId, View view) {
         Log.d(TAG, "addData was called");
 
-        boolean insertData = itemTable.addData(itemName, stockCounter, useCounter, categoryId);
+        boolean insertData = databaseHelper.addData(itemName, stockCounter, useCounter, categoryId);
 
         if (insertData) {
             Snackbar.make(view, itemName + " was added to list", Snackbar.LENGTH_LONG)

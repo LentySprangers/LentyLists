@@ -1,11 +1,13 @@
 package com.example.lentylists;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,17 +26,8 @@ public class ContentMain extends AppCompatActivity {
     private FloatingActionButton mFab;
     Toolbar toolbar;
 
-    ItemTable itemTable;
-    ArrayList<String> listItems = new ArrayList<String>() {
-        {
-            add("test1");
-
-            add("test2");
-
-            add("test3");
-        }
-
-    };
+    DatabaseHelper databaseHelper;
+    ArrayList<String> listItems = new ArrayList<String>();
     InventoryListAdapter adapter;
 
     @Override
@@ -48,7 +41,7 @@ public class ContentMain extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.list_items);
 
         setSupportActionBar(toolbar);
-        itemTable = new ItemTable(this);
+        databaseHelper = new DatabaseHelper(ContentMain.this);
         mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,9 +50,21 @@ public class ContentMain extends AppCompatActivity {
             }
         });
 
+
         adapter = new InventoryListAdapter(this, listItems);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        storeDataInArrays();
+    }
+
+    public void storeDataInArrays() {
+        Cursor cursor = databaseHelper.getData();
+        if (cursor.getCount() == 0) {
+            Toast.makeText(this, "No inventory items yet", Toast.LENGTH_SHORT).show();
+        }
+        while (cursor.moveToNext()) {
+            listItems.add(cursor.getString(1));
+        }
     }
 
 
