@@ -22,12 +22,14 @@
 
             <TextView
                 android:id="@+id/item_name"
-                android:layout_width="wrap_content"
+                android:layout_width="200dip"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:text="item name"
                 android:textColor="#000"
                 android:textSize="18sp"
+                android:singleLine="true"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
