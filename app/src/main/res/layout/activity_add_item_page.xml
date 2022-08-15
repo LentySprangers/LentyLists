@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/babyPink"
     tools:context=".AddItemPage">
 
     <include
@@ -25,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textColor="#000"
         android:padding="16dp"
         android:text="In stock:" />
 
@@ -39,6 +41,7 @@
             android:id="@+id/decrement_in_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="-" />
 
         <TextView
@@ -47,12 +50,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="16dp"
+            android:textColor="#000"
             android:text="0" />
 
         <Button
             android:id="@+id/increment_in_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="+" />
 
     </LinearLayout>
@@ -64,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="16dp"
+        android:textColor="#000"
         android:text="In use:" />
 
     <LinearLayout
@@ -77,6 +83,7 @@
             android:id="@+id/decrement_in_use"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="-" />
 
         <TextView
@@ -84,12 +91,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:textColor="#000"
             android:text="0" />
 
         <Button
             android:id="@+id/increment_in_use"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:text="+" />
 
     </LinearLayout>
@@ -126,6 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:textColor="@color/white"
             android:text="@string/add_item_button" />
     </LinearLayout>
 </LinearLayout>
