@@ -6,10 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
 
         public RecyclerView listItemName;
         public TextView itemName;
+        CardView cardView;
 
 
         MyViewHolder(@NonNull View itemView) {
@@ -43,7 +46,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
             super(itemView);
             listItemName = itemView.findViewById(R.id.list_items);
             itemName = itemView.findViewById(R.id.item_name);
-
+            cardView = itemView.findViewById(R.id.cardView);
 
         }
 
@@ -65,6 +68,9 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         position = holder.getAdapterPosition();
         String listItem = listItems.get(position);
         holder.itemName.setText(listItem);
+
+        holder.cardView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.recyclerview_anim));
+
 
         // TODO implement onClickListener for recyclerview
         //Recyclerview onClickListener

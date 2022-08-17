@@ -16,7 +16,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL2 = "name";
     private static final String COL3 = "inStock";
     private static final String COL4 = "inUse";
-
     private static final String COL5 = "categoryId";
 
 
