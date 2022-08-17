@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/babyPink"
+    android:background="@color/white"
     tools:context=".AddItemPage">
 
     <include
@@ -110,25 +110,6 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Select category: " />-->
-
-        <!--        <Spinner-->
-        <!--            android:id="@+id/spinner1"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:background="@android:drawable/btn_dropdown"-->
-        <!--            android:spinnerMode="dropdown" />-->
-
-
-        <!--    </LinearLayout>-->
-
-        <!--    <LinearLayout-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:gravity="center">-->
 
         <Button
             android:id="@+id/add_item_button"

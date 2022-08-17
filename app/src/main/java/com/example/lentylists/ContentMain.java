@@ -1,13 +1,11 @@
 package com.example.lentylists;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
 
 public class ContentMain extends AppCompatActivity {
 
@@ -27,8 +23,8 @@ public class ContentMain extends AppCompatActivity {
     Toolbar toolbar;
 
     DatabaseHelper databaseHelper;
-    ArrayList<String> listItems = new ArrayList<String>();
     InventoryListAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +42,22 @@ public class ContentMain extends AppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "OnClick was called");
+
                 openAddItemPage();
             }
         });
 
 
-        adapter = new InventoryListAdapter(this, listItems);
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        storeDataInArrays();
+        showInventoryItemsInRecyclerView();
+
     }
 
-    public void storeDataInArrays() {
-        Cursor cursor = databaseHelper.getData();
-        if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No inventory items yet", Toast.LENGTH_SHORT).show();
-        }
-        while (cursor.moveToNext()) {
-            listItems.add(cursor.getString(1));
-        }
+    public void showInventoryItemsInRecyclerView() {
+        Log.d(TAG, "showInventoryItemsInRecyclerView was called");
+        adapter = new InventoryListAdapter(this, databaseHelper.getData());
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 

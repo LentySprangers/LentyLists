@@ -20,24 +20,22 @@ public class AddItemPage extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
 
     private EditText editText;
-    private Button decrementInStock;
     private TextView inStockCounter;
-    private int stockCounter;
+    private TextView inUseCounter;
+    private Button decrementInStock;
     private Button incrementInStock;
     private Button decrementInUse;
-    private TextView inUseCounter;
-    private int useCounter;
     private Button incrementInUse;
     private Button addItemButton;
-    private String itemName = "";
-    private int categoryId;
     private DatabaseHelper databaseHelper;
+    private Item item = new Item();
 
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         @SuppressLint("NonConstantResourceId")
         public void onClick(View view) {
+            Log.d(TAG, "OnClick was called");
             switch (view.getId()) {
                 case R.id.increment_in_use:
                     changeInUse(1);
@@ -66,18 +64,21 @@ public class AddItemPage extends AppCompatActivity {
 
         editText = (EditText) findViewById(R.id.input_field);
         editText.addTextChangedListener(new TextWatcher() {
+
+
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                itemName = editable.toString();
+                item.setName(editable.toString());
             }
         });
 
@@ -97,19 +98,23 @@ public class AddItemPage extends AppCompatActivity {
         initCounters();
 
         addItemButton = (Button) findViewById(R.id.add_item_button);
+
+        // Add inventoryItem to category
         addItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "OnClick was called");
 
-                if (itemName.equals("")) {
+                if (item.getName().equals("")) {
                     Snackbar.make(view, "Please enter an item", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-                } else {
-                    itemName = itemName.trim().substring(0, 1).toUpperCase() + itemName.substring(1).toLowerCase();
-                    addData(itemName, stockCounter, useCounter, categoryId, view);
-                    finish();
+
+                    return;
                 }
+
+                addData(item, view);
+                finish();
+
             }
         });
 
@@ -119,39 +124,35 @@ public class AddItemPage extends AppCompatActivity {
 
     private void initCounters() {
         Log.d(TAG, "initCounters was called");
-        stockCounter = 0;
-        inStockCounter.setText("" + stockCounter);
-        useCounter = 0;
-        inUseCounter.setText("" + useCounter);
+
+        inStockCounter.setText("" + item.getInStockCount());
+
+        inUseCounter.setText("" + item.getInUseCount());
     }
 
     private void changeInStock(int change) {
         Log.d(TAG, "changeInStock was called");
-        stockCounter += change;
-        if (stockCounter < 0) {
-            stockCounter = 0;
-        }
-        inStockCounter.setText("" + stockCounter);
+
+        item.setInStockCount(item.getInStockCount() + change);
+        inStockCounter.setText("" + item.getInStockCount());
 
     }
 
 
     private void changeInUse(int change) {
         Log.d(TAG, "changeInUse was called");
-        useCounter += change;
-        if (useCounter < 0) {
-            useCounter = 0;
-        }
-        inUseCounter.setText("" + useCounter);
+
+        item.setInUseCount(item.getInUseCount() + change);
+        inUseCounter.setText("" + item.getInUseCount());
     }
 
-    private void addData(String itemName, int stockCounter, int useCounter, int categoryId, View view) {
+    private void addData(Item item, View view) {
         Log.d(TAG, "addData was called");
 
-        boolean insertData = databaseHelper.addData(itemName, stockCounter, useCounter, categoryId);
+        boolean insertData = databaseHelper.CreateItem(item);
 
         if (insertData) {
-            Snackbar.make(view, itemName + " was added to list", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, item.getName() + " was added to list", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
 
         } else {
