@@ -13,17 +13,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private final String TAG = getClass().getSimpleName();
 
-    private static final String ITEM_TABLE = "Item";
-    private static final String COL_ITEM_ID = "ID";
-    private static final String COL_ITEM_NAME = "name";
-    private static final String COL_ITEM_IN_STOCK = "inStock";
-    private static final String COL_ITEM_IN_USE = "inUse";
-    private static final String COL_ITEM_CATEGORY_ID = "categoryId";
+    private static final String INVENTORY_ITEM_TABLE = "InventoryItem";
+    private static final String COL_INVENTORY_ITEM_ID = "ID";
+    private static final String COL_INVENTORY_ITEM_NAME = "name";
+    private static final String COL_INVENTORY_ITEM_IN_STOCK = "inStock";
+    private static final String COL_INVENTORY_ITEM_IN_USE = "inUse";
+    private static final String COL_INVENTORY_ITEM_CATEGORY_ID = "categoryId";
 
 
     public DatabaseHelper(Context context) {
 
-        super(context, "inventory.db", null, 1);
+        super(context, "LentyListsDatabase.db", null, 1);
     }
 
     @Override
@@ -31,8 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "OnCreate was called");
 
-        String createTable = "CREATE TABLE " + ITEM_TABLE + " (" + COL_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL_ITEM_NAME + " TEXT NOT NULL, " + COL_ITEM_IN_STOCK + " INTEGER, " + COL_ITEM_IN_USE + " INTEGER, " + COL_ITEM_CATEGORY_ID + " INTEGER)";
+        String createTable = "CREATE TABLE " + INVENTORY_ITEM_TABLE + " (" + COL_INVENTORY_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COL_INVENTORY_ITEM_NAME + " TEXT NOT NULL, " + COL_INVENTORY_ITEM_IN_STOCK + " INTEGER, " + COL_INVENTORY_ITEM_IN_USE + " INTEGER, " + COL_INVENTORY_ITEM_CATEGORY_ID + " INTEGER)";
 
         db.execSQL(createTable);
     }
@@ -42,30 +42,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         Log.d(TAG, "OnUpgrade was called");
 
-        db.execSQL("ALTER TABLE " + ITEM_TABLE + " ADD " + COL_ITEM_CATEGORY_ID);
+        db.execSQL("ALTER TABLE " + INVENTORY_ITEM_TABLE + " ADD " + COL_INVENTORY_ITEM_CATEGORY_ID);
         onCreate(db);
     }
 
 
-    public boolean createItem(Item item) {
+    public boolean createInventoryItem(InventoryItem inventoryItem) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_ITEM_NAME, item.getName());
-        contentValues.put(COL_ITEM_IN_STOCK, item.getInStockCount());
-        contentValues.put(COL_ITEM_IN_USE, item.getInUseCount());
-        contentValues.put(COL_ITEM_CATEGORY_ID, item.getCategoryId());
+        contentValues.put(COL_INVENTORY_ITEM_NAME, inventoryItem.getName());
+        contentValues.put(COL_INVENTORY_ITEM_IN_STOCK, inventoryItem.getInStockCount());
+        contentValues.put(COL_INVENTORY_ITEM_IN_USE, inventoryItem.getInUseCount());
+        contentValues.put(COL_INVENTORY_ITEM_CATEGORY_ID, inventoryItem.getCategoryId());
 
-        long result = db.insert(ITEM_TABLE, null, contentValues);
+        long result = db.insert(INVENTORY_ITEM_TABLE, null, contentValues);
         // if data is inserted incorrectly it will return -1
         return result != -1;
     }
 
-    public ArrayList<Item> getData() {
-        Log.d(TAG, "getData was called");
+    public ArrayList<InventoryItem> ReadInventoryItem() {
+        Log.d(TAG, "readInventoryItem was called");
 
-        ArrayList<Item> returnList = new ArrayList<>();
+        ArrayList<InventoryItem> returnList = new ArrayList<>();
 
-        String query = "SELECT * FROM " + ITEM_TABLE;
+        String query = "SELECT * FROM " + INVENTORY_ITEM_TABLE;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -83,14 +83,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         do {
-            int itemId = cursor.getInt(0);
-            String itemName = cursor.getString(1);
+            int inventoryItemId = cursor.getInt(0);
+            String inventoryItemName = cursor.getString(1);
             int inStockCount = cursor.getInt(2);
             int inUseCount = cursor.getInt(3);
             int categoryId = cursor.getInt(4);
 
-            Item newItem = new Item(itemId, itemName, inStockCount, inUseCount, categoryId);
-            returnList.add(newItem);
+            InventoryItem newInventoryItem = new InventoryItem(inventoryItemId, inventoryItemName, inStockCount, inUseCount, categoryId);
+            returnList.add(newInventoryItem);
 
 
         } while (cursor.moveToNext());
@@ -100,5 +100,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return returnList;
 
+    }
+
+    // TODO read category from db
+    public ArrayList<Category> readCategory() {
+        Log.d(TAG, "readCategory was called");
+
+        ArrayList<Category> returnList = new ArrayList<>();
+        return returnList;
     }
 }

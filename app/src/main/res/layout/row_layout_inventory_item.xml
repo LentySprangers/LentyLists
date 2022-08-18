@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:id="@+id/mainLayout_lists">
+    android:id="@+id/LinearLayout_inventory_item">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_lists"
+        android:id="@+id/cardView_inventory_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -21,11 +21,11 @@
             android:padding="12dp">
 
             <TextView
-                android:id="@+id/list_name"
+                android:id="@+id/inventory_item_name_TextView"
                 android:layout_width="200dip"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                android:text="List name"
+                android:text="item name"
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:singleLine="true"
@@ -35,15 +35,28 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/number_of_items"
+                android:id="@+id/in_stock_count_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="96dp"
+                android:layout_marginEnd="88dp"
                 android:padding="12dp"
-                android:text="0 items"
+                android:text="In stock: 0"
                 android:textColor="#000"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/list_name"
+                app:layout_constraintLeft_toRightOf="@+id/inventory_item_name_TextView" />
+
+            <TextView
+                android:id="@+id/in_use_count_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="In use: 0"
+                android:textColor="#000"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/in_stock_count_TextView"
                 app:layout_constraintTop_toTopOf="parent" />
 
 

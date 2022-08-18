@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ContentMain extends AppCompatActivity {
+public class InventoryItemListActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
 
     private RecyclerView mRecyclerView;
-    private FloatingActionButton mFab;
+    private FloatingActionButton mFabAddInventoryItem;
     Toolbar toolbar;
 
     DatabaseHelper databaseHelper;
@@ -31,20 +31,22 @@ public class ContentMain extends AppCompatActivity {
         Log.d(TAG, "OnCreate was called");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main);
+        setContentView(R.layout.inventory_item_list_activity);
 
         toolbar = findViewById(R.id.toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.list_items);
-
         setSupportActionBar(toolbar);
-        databaseHelper = new DatabaseHelper(ContentMain.this);
-        mFab = findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.inventory_item_recyclerView);
+
+        databaseHelper = new DatabaseHelper(InventoryItemListActivity.this);
+
+        mFabAddInventoryItem = findViewById(R.id.fab_add_inventory_item);
+        mFabAddInventoryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "OnClick was called");
 
-                openAddItemPage();
+                openAddInventoryItemPage();
             }
         });
 
@@ -59,16 +61,16 @@ public class ContentMain extends AppCompatActivity {
 
     public void showInventoryItemsInRecyclerView() {
         Log.d(TAG, "showInventoryItemsInRecyclerView was called");
-        adapter = new InventoryListAdapter(this, databaseHelper.getData());
+        adapter = new InventoryListAdapter(this, databaseHelper.ReadInventoryItem());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
-    public void openAddItemPage() {
+    public void openAddInventoryItemPage() {
         Log.d(TAG, "openAddItemPage was called");
 
-        Intent intent = new Intent(this, AddItemPage.class);
+        Intent intent = new Intent(this, AddInventoryItemPage.class);
         startActivity(intent);
     }
 

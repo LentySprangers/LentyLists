@@ -2,7 +2,7 @@ package com.example.lentylists;
 
 import android.util.Log;
 
-public class Item {
+public class InventoryItem {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -12,10 +12,10 @@ public class Item {
     private int inUseCount;
     private int categoryId;
 
-    public Item() {
+    public InventoryItem() {
     }
 
-    public Item(int id, String name, int inStockCount, int inUseCount, int categoryId) {
+    public InventoryItem(int id, String name, int inStockCount, int inUseCount, int categoryId) {
         this.id = id;
         this.name = name;
         this.inStockCount = inStockCount;
@@ -26,7 +26,8 @@ public class Item {
 
     public void setName(String name) {
         Log.d(TAG, "setName was called");
-        this.name = name.trim().substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+        name = name.trim();
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
     public void setInStockCount(int inStockCount) {

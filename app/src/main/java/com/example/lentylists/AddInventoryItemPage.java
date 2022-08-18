@@ -15,20 +15,19 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 
-public class AddItemPage extends AppCompatActivity {
+public class AddInventoryItemPage extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
 
-    private EditText editText;
-    private TextView inStockCounter;
-    private TextView inUseCounter;
-    private Button decrementInStock;
-    private Button incrementInStock;
-    private Button decrementInUse;
-    private Button incrementInUse;
-    private Button addItemButton;
+    private TextView inStockCountTextView;
+    private TextView inUseCountTextView;
+    private Button decrementInStockButton;
+    private Button incrementInStockButton;
+    private Button decrementInUseButton;
+    private Button incrementInUseButton;
+    private Button addInventoryItemButton;
     private DatabaseHelper databaseHelper;
-    private Item item = new Item();
+    private InventoryItem inventoryItem = new InventoryItem();
 
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -62,8 +61,8 @@ public class AddItemPage extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        editText = (EditText) findViewById(R.id.input_field);
-        editText.addTextChangedListener(new TextWatcher() {
+        EditText inventoryItemInputFieldEditText = (EditText) findViewById(R.id.input_field);
+        inventoryItemInputFieldEditText.addTextChangedListener(new TextWatcher() {
 
 
             @Override
@@ -78,41 +77,42 @@ public class AddItemPage extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                item.setName(editable.toString());
+                inventoryItem.setName(editable.toString());
             }
         });
 
 
-        decrementInStock = (Button) findViewById(R.id.decrement_in_stock);
-        decrementInStock.setOnClickListener(clickListener);
-        inStockCounter = (TextView) findViewById(R.id.in_stock_count);
-        incrementInStock = (Button) findViewById(R.id.increment_in_stock);
-        incrementInStock.setOnClickListener(clickListener);
+        decrementInStockButton = (Button) findViewById(R.id.decrement_in_stock);
+        incrementInStockButton = (Button) findViewById(R.id.increment_in_stock);
+        decrementInUseButton = (Button) findViewById(R.id.decrement_in_use);
+        incrementInUseButton = (Button) findViewById(R.id.increment_in_use);
 
-        decrementInUse = (Button) findViewById(R.id.decrement_in_use);
-        decrementInUse.setOnClickListener(clickListener);
-        inUseCounter = (TextView) findViewById(R.id.in_use_count);
-        incrementInUse = (Button) findViewById(R.id.increment_in_use);
-        incrementInUse.setOnClickListener(clickListener);
+        inStockCountTextView = (TextView) findViewById(R.id.in_stock_count);
+        inUseCountTextView = (TextView) findViewById(R.id.in_use_count);
+
+        decrementInStockButton.setOnClickListener(clickListener);
+        incrementInStockButton.setOnClickListener(clickListener);
+        decrementInUseButton.setOnClickListener(clickListener);
+        incrementInUseButton.setOnClickListener(clickListener);
 
         initCounters();
 
-        addItemButton = (Button) findViewById(R.id.add_item_button);
+        addInventoryItemButton = (Button) findViewById(R.id.add_item_button);
 
         // Add inventoryItem to category
-        addItemButton.setOnClickListener(new View.OnClickListener() {
+        addInventoryItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "OnClick was called");
 
-                if (item.getName().equals("")) {
+                if (inventoryItem.getName().equals("")) {
                     Snackbar.make(view, "Please enter an item", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
                     return;
                 }
 
-                addData(item, view);
+                addInventoryItem(inventoryItem, view);
                 finish();
 
             }
@@ -125,16 +125,16 @@ public class AddItemPage extends AppCompatActivity {
     private void initCounters() {
         Log.d(TAG, "initCounters was called");
 
-        inStockCounter.setText("" + item.getInStockCount());
+        inStockCountTextView.setText("" + inventoryItem.getInStockCount());
 
-        inUseCounter.setText("" + item.getInUseCount());
+        inUseCountTextView.setText("" + inventoryItem.getInUseCount());
     }
 
     private void changeInStock(int change) {
         Log.d(TAG, "changeInStock was called");
 
-        item.setInStockCount(item.getInStockCount() + change);
-        inStockCounter.setText("" + item.getInStockCount());
+        inventoryItem.setInStockCount(inventoryItem.getInStockCount() + change);
+        inStockCountTextView.setText("" + inventoryItem.getInStockCount());
 
     }
 
@@ -142,17 +142,17 @@ public class AddItemPage extends AppCompatActivity {
     private void changeInUse(int change) {
         Log.d(TAG, "changeInUse was called");
 
-        item.setInUseCount(item.getInUseCount() + change);
-        inUseCounter.setText("" + item.getInUseCount());
+        inventoryItem.setInUseCount(inventoryItem.getInUseCount() + change);
+        inUseCountTextView.setText("" + inventoryItem.getInUseCount());
     }
 
-    private void addData(Item item, View view) {
-        Log.d(TAG, "addData was called");
+    private void addInventoryItem(InventoryItem inventoryItem, View view) {
+        Log.d(TAG, "addInventoryItem was called");
 
-        boolean insertData = databaseHelper.createItem(item);
+        boolean insertData = databaseHelper.createInventoryItem(inventoryItem);
 
         if (insertData) {
-            Snackbar.make(view, item.getName() + " was added to list", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, inventoryItem.getName() + " was added to list", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
 
         } else {

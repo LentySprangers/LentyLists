@@ -18,15 +18,15 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     private final String TAG = getClass().getSimpleName();
 
     private Context context;
-    private ArrayList<Item> listItems = new ArrayList<Item>();
+    private ArrayList<InventoryItem> inventoryItems = new ArrayList<>();
 
 
-    public InventoryListAdapter(Context context, ArrayList<Item> listItems) {
+    public InventoryListAdapter(Context context, ArrayList<InventoryItem> inventoryItems) {
         Log.d(TAG, "Constructor was called");
 
         this.context = context;
-        if (listItems != null) {
-            this.listItems = listItems;
+        if (inventoryItems != null) {
+            this.inventoryItems = inventoryItems;
 
         }
     }
@@ -34,22 +34,22 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final String TAG = getClass().getSimpleName();
 
-        public RecyclerView listItemName;
-        public TextView itemName;
-        public TextView inStockCount;
-        public TextView inUseCount;
-        CardView cardView;
+        public RecyclerView inventoryItemRecyclerView;
+        public TextView inventoryItemNameTextView;
+        public TextView inStockCountTextView;
+        public TextView inUseCountTextView;
+        CardView inventoryItemCardView;
 
 
         MyViewHolder(@NonNull View itemView) {
 
             super(itemView);
             Log.d(TAG, "Constructor was called");
-            listItemName = itemView.findViewById(R.id.list_items);
-            itemName = itemView.findViewById(R.id.item_name);
-            inStockCount = itemView.findViewById(R.id.in_stock);
-            inUseCount = itemView.findViewById(R.id.in_use);
-            cardView = itemView.findViewById(R.id.cardView);
+            inventoryItemRecyclerView = itemView.findViewById(R.id.inventory_item_recyclerView);
+            inventoryItemNameTextView = itemView.findViewById(R.id.inventory_item_name_TextView);
+            inStockCountTextView = itemView.findViewById(R.id.in_stock_count_TextView);
+            inUseCountTextView = itemView.findViewById(R.id.in_use_count_TextView);
+            inventoryItemCardView = itemView.findViewById(R.id.cardView_inventory_item);
 
         }
 
@@ -61,7 +61,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         Log.d(TAG, "OnCreateViewHolder was called");
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.simple_list_item, parent, false);
+        View view = inflater.inflate(R.layout.row_layout_inventory_item, parent, false);
         return new MyViewHolder(view);
 
     }
@@ -72,18 +72,18 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
         Log.d(TAG, "OnBindViewHolder was called");
 
         position = holder.getAdapterPosition();
-        Item listItem = listItems.get(position);
-        holder.itemName.setText(listItem.getName());
-        holder.inStockCount.setText("In Stock: " + listItem.getInStockCount());
-        holder.inUseCount.setText("In Use: " + listItem.getInUseCount());
+        InventoryItem inventoryItem = inventoryItems.get(position);
+        holder.inventoryItemNameTextView.setText(inventoryItem.getName());
+        holder.inStockCountTextView.setText("In Stock: " + inventoryItem.getInStockCount());
+        holder.inUseCountTextView.setText("In Use: " + inventoryItem.getInUseCount());
 
 
-        holder.cardView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.recyclerview_anim));
+        holder.inventoryItemCardView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.recyclerview_anim));
 
 
         // TODO implement onClickListener for recyclerview
         //Recyclerview onClickListener
-//        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+//        holder.LinearLayout_inventory_item.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //
@@ -96,7 +96,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount was called");
-        return listItems.size();
+        return inventoryItems.size();
     }
 
 

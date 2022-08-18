@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".AddItemPage">
+    tools:context=".AddInventoryItemPage">
 
     <include
         android:id="@+id/toolbar"
@@ -22,7 +22,7 @@
         android:padding="22dp" />
 
     <TextView
-        android:id="@+id/in_stock"
+        android:id="@+id/in_stock_count_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -64,7 +64,7 @@
 
 
     <TextView
-        android:id="@+id/in_use"
+        android:id="@+id/in_use_count_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
