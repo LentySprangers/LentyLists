@@ -49,8 +49,12 @@ public class ContentMain extends AppCompatActivity {
         });
 
 
-        showInventoryItemsInRecyclerView();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showInventoryItemsInRecyclerView();
     }
 
     public void showInventoryItemsInRecyclerView() {

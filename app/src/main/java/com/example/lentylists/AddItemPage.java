@@ -149,7 +149,7 @@ public class AddItemPage extends AppCompatActivity {
     private void addData(Item item, View view) {
         Log.d(TAG, "addData was called");
 
-        boolean insertData = databaseHelper.CreateItem(item);
+        boolean insertData = databaseHelper.createItem(item);
 
         if (insertData) {
             Snackbar.make(view, item.getName() + " was added to list", Snackbar.LENGTH_LONG)

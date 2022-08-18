@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean CreateItem(Item item) {
+    public boolean createItem(Item item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_ITEM_NAME, item.getName());
