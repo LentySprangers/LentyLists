@@ -1,7 +1,5 @@
 package com.example.lentylists;
 
-import android.util.Log;
-
 public class InventoryItem {
 
     private final String TAG = getClass().getSimpleName();
@@ -24,13 +22,11 @@ public class InventoryItem {
 
 
     public void setName(String name) {
-        Log.d(TAG, "setName was called");
         name = name.trim();
         this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
     public void setInStockCount(int inStockCount) {
-        Log.d(TAG, "setInStockCount was called");
         if (inStockCount < 0) {
             this.inStockCount = 0;
             return;
@@ -39,7 +35,6 @@ public class InventoryItem {
     }
 
     public void setInUseCount(int inUseCount) {
-        Log.d(TAG, "setInUseCount was called");
         if (inUseCount < 0) {
             this.inUseCount = 0;
             return;
@@ -49,23 +44,19 @@ public class InventoryItem {
 
 
     public int getId() {
-        Log.d(TAG, "getId was called");
         return id;
     }
 
     public String getName() {
-        Log.d(TAG, "getName was called");
         return name;
     }
 
     public int getInStockCount() {
-        Log.d(TAG, "getInStockCount was called");
         return inStockCount;
     }
 
     public int getInUseCount() {
-        Log.d(TAG, "getInUseCount was called");
         return inUseCount;
     }
-    
+
 }
