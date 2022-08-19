@@ -10,17 +10,20 @@ public class Category {
     private String name;
     private int itemCount;
 
+    public Category() {
+    }
 
-    public Category(int id, String name, int itemCount) {
+    public Category(int id, String name) {
         this.id = id;
         this.name = name;
         this.itemCount = itemCount;
     }
 
-    //TODO make this setter trim and capitalize name
+
     public void setName(String name) {
         Log.d(TAG, "setName was called");
-        this.name = name;
+        name = name.trim();
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
     //TODO make this setter set the amount of inventoryItems in category

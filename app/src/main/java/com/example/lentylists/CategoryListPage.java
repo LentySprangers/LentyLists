@@ -15,18 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-
 public class CategoryListPage extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
 
     private RecyclerView mRecyclerView;
-    private FloatingActionButton mFabAddCategory;
     Toolbar toolbar;
 
     DatabaseHelper databaseHelper;
-    ArrayList<Category> categoryList = new ArrayList<>();
     CategoryListAdapter adapter;
 
     @Override
@@ -41,7 +37,7 @@ public class CategoryListPage extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         databaseHelper = new DatabaseHelper(CategoryListPage.this);
-        mFabAddCategory = findViewById(R.id.fab_add_category);
+        FloatingActionButton mFabAddCategory = findViewById(R.id.fab_add_category);
         mFabAddCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

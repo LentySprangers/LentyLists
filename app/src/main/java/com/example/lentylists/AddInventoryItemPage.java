@@ -61,7 +61,7 @@ public class AddInventoryItemPage extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        EditText inventoryItemInputFieldEditText = (EditText) findViewById(R.id.input_field);
+        EditText inventoryItemInputFieldEditText = (EditText) findViewById(R.id.category_input_field);
         inventoryItemInputFieldEditText.addTextChangedListener(new TextWatcher() {
 
 
@@ -97,7 +97,7 @@ public class AddInventoryItemPage extends AppCompatActivity {
 
         initCounters();
 
-        addInventoryItemButton = (Button) findViewById(R.id.add_item_button);
+        addInventoryItemButton = (Button) findViewById(R.id.add_category_button);
 
         // Add inventoryItem to category
         addInventoryItemButton.setOnClickListener(new View.OnClickListener() {

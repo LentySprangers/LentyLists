@@ -13,17 +13,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private final String TAG = getClass().getSimpleName();
 
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "LentyListsDatabase.db";
+
+    // table names
     private static final String INVENTORY_ITEM_TABLE = "InventoryItem";
+    private static final String CATEGORY_TABLE = "Category";
+    private static final String LINK_INVENTORY_ITEM_CATEGORY = "Link_InventoryItem_Category";
+
+    // InventoryItem column names
     private static final String COL_INVENTORY_ITEM_ID = "ID";
     private static final String COL_INVENTORY_ITEM_NAME = "name";
     private static final String COL_INVENTORY_ITEM_IN_STOCK = "inStock";
     private static final String COL_INVENTORY_ITEM_IN_USE = "inUse";
-    private static final String COL_INVENTORY_ITEM_CATEGORY_ID = "categoryId";
+
+    // Category column names
+    private static final String COL_CATEGORY_ID = "ID";
+    private static final String COL_CATEGORY_NAME = "name";
+
+    // Link_InventoryItem_Category column names
+    private static final String COL_LINK_INVENTORY_ITEM_CATEGORY_ID = "ID";
+    private static final String COL_LINK_CATEGORY_ID = "CategoryId";
+    private static final String COL_LINK_INVENTORY_ITEM_ID = "InventoryItemId";
+
+    // CREATE TABLE queries
+    private static final String CREATE_TABLE_INVENTORY_ITEM = "CREATE TABLE "
+            + INVENTORY_ITEM_TABLE + " ("
+            + COL_INVENTORY_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_INVENTORY_ITEM_NAME + " TEXT NOT NULL, "
+            + COL_INVENTORY_ITEM_IN_STOCK + " INTEGER, "
+            + COL_INVENTORY_ITEM_IN_USE + " INTEGER)";
+
+
+    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE "
+            + CATEGORY_TABLE + " ("
+            + COL_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_CATEGORY_NAME + " TEXT NOT NULL)";
+
+    private static final String CREATE_TABLE_LINK_INVENTORY_ITEM_CATEGORY = "CREATE TABLE "
+            + LINK_INVENTORY_ITEM_CATEGORY + " ("
+            + COL_LINK_INVENTORY_ITEM_CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COL_LINK_CATEGORY_ID + " INTEGER REFERENCES " + CATEGORY_TABLE + "(" + COL_CATEGORY_ID + "), "
+            + COL_LINK_INVENTORY_ITEM_ID + " INTEGER REFERENCES " + INVENTORY_ITEM_TABLE + "(" + COL_INVENTORY_ITEM_ID + "))";
 
 
     public DatabaseHelper(Context context) {
 
-        super(context, "LentyListsDatabase.db", null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -31,10 +67,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "OnCreate was called");
 
-        String createTable = "CREATE TABLE " + INVENTORY_ITEM_TABLE + " (" + COL_INVENTORY_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL_INVENTORY_ITEM_NAME + " TEXT NOT NULL, " + COL_INVENTORY_ITEM_IN_STOCK + " INTEGER, " + COL_INVENTORY_ITEM_IN_USE + " INTEGER, " + COL_INVENTORY_ITEM_CATEGORY_ID + " INTEGER)";
+        // creating required tables
+        db.execSQL(CREATE_TABLE_INVENTORY_ITEM);
+        db.execSQL(CREATE_TABLE_CATEGORY);
+        db.execSQL(CREATE_TABLE_LINK_INVENTORY_ITEM_CATEGORY);
 
-        db.execSQL(createTable);
     }
 
     @Override
@@ -42,8 +79,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         Log.d(TAG, "OnUpgrade was called");
 
-        db.execSQL("ALTER TABLE " + INVENTORY_ITEM_TABLE + " ADD " + COL_INVENTORY_ITEM_CATEGORY_ID);
+        // on upgrade drop older tables
+        db.execSQL("DROP TABLE IF EXISTS " + INVENTORY_ITEM_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + CATEGORY_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + LINK_INVENTORY_ITEM_CATEGORY);
+
+        // and create new tables
         onCreate(db);
+
     }
 
 
@@ -53,7 +96,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_INVENTORY_ITEM_NAME, inventoryItem.getName());
         contentValues.put(COL_INVENTORY_ITEM_IN_STOCK, inventoryItem.getInStockCount());
         contentValues.put(COL_INVENTORY_ITEM_IN_USE, inventoryItem.getInUseCount());
-        contentValues.put(COL_INVENTORY_ITEM_CATEGORY_ID, inventoryItem.getCategoryId());
 
         long result = db.insert(INVENTORY_ITEM_TABLE, null, contentValues);
         // if data is inserted incorrectly it will return -1
@@ -87,9 +129,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String inventoryItemName = cursor.getString(1);
             int inStockCount = cursor.getInt(2);
             int inUseCount = cursor.getInt(3);
-            int categoryId = cursor.getInt(4);
 
-            InventoryItem newInventoryItem = new InventoryItem(inventoryItemId, inventoryItemName, inStockCount, inUseCount, categoryId);
+
+            InventoryItem newInventoryItem = new InventoryItem(inventoryItemId, inventoryItemName, inStockCount, inUseCount);
             returnList.add(newInventoryItem);
 
 
@@ -102,11 +144,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // TODO read category from db
+    public boolean createCategory(Category category) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_CATEGORY_NAME, category.getName());
+
+
+        long result = db.insert(CATEGORY_TABLE, null, contentValues);
+        // if data is inserted incorrectly it will return -1
+        return result != -1;
+    }
+
+
     public ArrayList<Category> readCategory() {
         Log.d(TAG, "readCategory was called");
 
         ArrayList<Category> returnList = new ArrayList<>();
+
+        String query = "SELECT * FROM " + CATEGORY_TABLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+
+        if (db == null) {
+            Log.e(TAG, "Couldn't instantiate database instance to retrieve CategoryList");
+            return returnList;
+        }
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (!cursor.moveToFirst()) {
+            Log.d(TAG, "There were no categories set in db");
+            return returnList;
+        }
+
+        do {
+            int categoryId = cursor.getInt(0);
+            String categoryName = cursor.getString(1);
+
+
+            Category newCategory = new Category(categoryId, categoryName);
+            returnList.add(newCategory);
+
+
+        } while (cursor.moveToNext());
+
+        cursor.close();
+        db.close();
+
         return returnList;
     }
 }

@@ -10,17 +10,16 @@ public class InventoryItem {
     private String name = "";
     private int inStockCount;
     private int inUseCount;
-    private int categoryId;
 
     public InventoryItem() {
     }
 
-    public InventoryItem(int id, String name, int inStockCount, int inUseCount, int categoryId) {
+    public InventoryItem(int id, String name, int inStockCount, int inUseCount) {
         this.id = id;
         this.name = name;
         this.inStockCount = inStockCount;
         this.inUseCount = inUseCount;
-        this.categoryId = categoryId;
+
     }
 
 
@@ -48,10 +47,6 @@ public class InventoryItem {
         this.inUseCount = inUseCount;
     }
 
-    public void setCategoryId(int categoryId) {
-        Log.d(TAG, "setCategoryId was called");
-        this.categoryId = categoryId;
-    }
 
     public int getId() {
         Log.d(TAG, "getId was called");
@@ -72,9 +67,5 @@ public class InventoryItem {
         Log.d(TAG, "getInUseCount was called");
         return inUseCount;
     }
-
-    public int getCategoryId() {
-        Log.d(TAG, "getCategoryId was called");
-        return categoryId;
-    }
+    
 }
