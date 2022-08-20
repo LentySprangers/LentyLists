@@ -1,6 +1,7 @@
 package com.example.lentylists;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,9 +46,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             super(itemView);
             Log.d(TAG, "Constructor was called");
             categoryRecyclerView = itemView.findViewById(R.id.category_RecyclerView);
+
             categoryCardView = itemView.findViewById(R.id.cardView_category);
+
             categoryNameTextView = itemView.findViewById(R.id.category_name_textView);
             itemCountTextView = itemView.findViewById(R.id.number_of_items_TextView);
+
 
         }
 
@@ -74,18 +78,19 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         holder.categoryNameTextView.setText(category.getName());
         holder.itemCountTextView.setText("Items: " + category.getItemCount());
 
-
         holder.categoryCardView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.recyclerview_anim));
 
 
-        // TODO implement onClickListener for recyclerview
-        //Recyclerview onClickListener
-//        holder.LinearLayout_Category.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+        holder.categoryCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int categoryId = category.getId();
+                Intent intent = new Intent(context, InventoryItemListActivity.class);
+                intent.putExtra("CategoryId", categoryId);
+                context.startActivity(intent);
+
+            }
+        });
 
 
     }
