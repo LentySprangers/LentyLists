@@ -33,6 +33,7 @@ public class InventoryItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inventory_item_list_activity);
 
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -56,12 +57,14 @@ public class InventoryItemListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        showInventoryItemsInRecyclerView();
+        Intent intent = getIntent();
+        int categoryId = intent.getIntExtra("CategoryId", 0);
+        showInventoryItemsInRecyclerView(categoryId);
     }
 
-    public void showInventoryItemsInRecyclerView() {
+    public void showInventoryItemsInRecyclerView(int categoryId) {
         Log.d(TAG, "showInventoryItemsInRecyclerView was called");
-        adapter = new InventoryListAdapter(this, databaseHelper.ReadInventoryItem());
+        adapter = new InventoryListAdapter(this, databaseHelper.readInventoryItemByCategoryID(categoryId));
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
