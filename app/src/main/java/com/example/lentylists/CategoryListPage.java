@@ -25,6 +25,7 @@ public class CategoryListPage extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     CategoryListAdapter adapter;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "OnCreate was called");
@@ -37,6 +38,8 @@ public class CategoryListPage extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         databaseHelper = new DatabaseHelper(CategoryListPage.this);
+
+
         FloatingActionButton mFabAddCategory = findViewById(R.id.fab_add_category);
         mFabAddCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,7 @@ public class CategoryListPage extends AppCompatActivity {
 
         Intent intent = new Intent(this, AddCategoryPage.class);
         startActivity(intent);
+
     }
 
 

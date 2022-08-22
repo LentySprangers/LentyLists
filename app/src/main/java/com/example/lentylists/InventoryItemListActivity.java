@@ -24,6 +24,7 @@ public class InventoryItemListActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
     InventoryListAdapter adapter;
+    private int categoryId;
 
 
     @Override
@@ -42,14 +43,6 @@ public class InventoryItemListActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(InventoryItemListActivity.this);
 
         mFabAddInventoryItem = findViewById(R.id.fab_add_inventory_item);
-        mFabAddInventoryItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "OnClick was called");
-
-                openAddInventoryItemPage();
-            }
-        });
 
 
     }
@@ -57,9 +50,19 @@ public class InventoryItemListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         Intent intent = getIntent();
-        int categoryId = intent.getIntExtra("CategoryId", 0);
+        categoryId = intent.getIntExtra("CategoryId", 0);
         showInventoryItemsInRecyclerView(categoryId);
+
+        mFabAddInventoryItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "OnClick was called");
+
+                openAddInventoryItemPage(categoryId);
+            }
+        });
     }
 
     public void showInventoryItemsInRecyclerView(int categoryId) {
@@ -70,11 +73,13 @@ public class InventoryItemListActivity extends AppCompatActivity {
     }
 
 
-    public void openAddInventoryItemPage() {
+    public void openAddInventoryItemPage(int categoryId) {
         Log.d(TAG, "openAddItemPage was called");
 
         Intent intent = new Intent(this, AddInventoryItemPage.class);
+        intent.putExtra("CategoryId", categoryId);
         startActivity(intent);
+
     }
 
 
