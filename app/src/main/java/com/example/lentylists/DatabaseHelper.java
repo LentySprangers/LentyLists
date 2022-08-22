@@ -90,29 +90,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean createInventoryItem(InventoryItem inventoryItem) {
+    public boolean createInventoryItem(InventoryItem inventoryItem, int categoryId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_INVENTORY_ITEM_NAME, inventoryItem.getName());
         contentValues.put(COL_INVENTORY_ITEM_IN_STOCK, inventoryItem.getInStockCount());
         contentValues.put(COL_INVENTORY_ITEM_IN_USE, inventoryItem.getInUseCount());
 
-        long result = db.insert(INVENTORY_ITEM_TABLE, null, contentValues);
-        // if data is inserted incorrectly it will return -1
+
+        int inventoryItemId = (int) db.insert(INVENTORY_ITEM_TABLE, null, contentValues);
+        if (inventoryItemId == -1) {
+            Log.e(TAG, "InventoryItem could not be inserted in the database");
+            return false;
+        }
+
+        ContentValues cv = new ContentValues();
+        cv.put(COL_LINK_INVENTORY_ITEM_ID, inventoryItemId);
+        cv.put(COL_LINK_CATEGORY_ID, categoryId);
+
+
+        long result = db.insert(LINK_INVENTORY_ITEM_CATEGORY, null, cv);
+        db.close();
         return result != -1;
+
     }
+
 
     public ArrayList<InventoryItem> readInventoryItemByCategoryID(int categoryId) {
 
         ArrayList<InventoryItem> returnList = new ArrayList<>();
 
-//        String query = "SELECT * FROM " + LINK_INVENTORY_ITEM_CATEGORY + " AS inventoryItems" + " JOIN " + INVENTORY_ITEM_TABLE +
-//                " ON " + INVENTORY_ITEM_TABLE + "."
-//                + COL_INVENTORY_ITEM_ID + " = " + LINK_INVENTORY_ITEM_CATEGORY + "."
-//                + COL_LINK_INVENTORY_ITEM_ID + " JOIN " + CATEGORY_TABLE + " ON " + CATEGORY_TABLE + "."
-//                + COL_CATEGORY_ID + " = " + LINK_INVENTORY_ITEM_CATEGORY + "." + COL_LINK_CATEGORY_ID + " WHERE " + LINK_INVENTORY_ITEM_CATEGORY + "." + COL_CATEGORY_ID + " = " + categoryId;
-
-        String query = "SELECT * FROM " + INVENTORY_ITEM_TABLE + " AS I INNER JOIN " + LINK_INVENTORY_ITEM_CATEGORY + " AS LINK ON I." + COL_INVENTORY_ITEM_ID + " = LINK." + COL_INVENTORY_ITEM_ID + " INNER JOIN " + LINK_INVENTORY_ITEM_CATEGORY + " AS LINK2 ON I." + COL_INVENTORY_ITEM_ID + " = LINK2." + COL_INVENTORY_ITEM_ID + " WHERE LINK." + COL_LINK_CATEGORY_ID + " = " + categoryId;
+        String query = "SELECT * FROM " + INVENTORY_ITEM_TABLE + " AS I INNER JOIN " + LINK_INVENTORY_ITEM_CATEGORY + " AS LINK ON I."
+                + COL_INVENTORY_ITEM_ID + " = LINK." + COL_INVENTORY_ITEM_ID + " INNER JOIN "
+                + LINK_INVENTORY_ITEM_CATEGORY + " AS LINK2 ON I." + COL_INVENTORY_ITEM_ID + " = LINK2."
+                + COL_INVENTORY_ITEM_ID + " WHERE LINK." + COL_LINK_CATEGORY_ID + " = " + categoryId;
 
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -148,7 +159,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public ArrayList<InventoryItem> readInventoryItem(int categoryId) {
+    public ArrayList<InventoryItem> readInventoryItem() {
         Log.d(TAG, "readInventoryItem was called");
 
         ArrayList<InventoryItem> returnList = new ArrayList<>();

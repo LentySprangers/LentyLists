@@ -1,6 +1,7 @@
 package com.example.lentylists;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +29,7 @@ public class AddInventoryItemPage extends AppCompatActivity {
     private Button addInventoryItemButton;
     private DatabaseHelper databaseHelper;
     private InventoryItem inventoryItem = new InventoryItem();
+    int categoryId;
 
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
@@ -60,6 +62,7 @@ public class AddInventoryItemPage extends AppCompatActivity {
         setContentView(R.layout.activity_add_item_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         EditText inventoryItemInputFieldEditText = (EditText) findViewById(R.id.category_input_field);
         inventoryItemInputFieldEditText.addTextChangedListener(new TextWatcher() {
@@ -112,7 +115,8 @@ public class AddInventoryItemPage extends AppCompatActivity {
                     return;
                 }
 
-                addInventoryItem(inventoryItem, view);
+
+                addInventoryItem(inventoryItem, categoryId, view);
                 finish();
 
             }
@@ -120,6 +124,13 @@ public class AddInventoryItemPage extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = getIntent();
+        categoryId = intent.getIntExtra("CategoryId", 0);
     }
 
     private void initCounters() {
@@ -146,10 +157,11 @@ public class AddInventoryItemPage extends AppCompatActivity {
         inUseCountTextView.setText("" + inventoryItem.getInUseCount());
     }
 
-    private void addInventoryItem(InventoryItem inventoryItem, View view) {
+    private void addInventoryItem(InventoryItem inventoryItem, int categoryId, View view) {
         Log.d(TAG, "addInventoryItem was called");
 
-        boolean insertData = databaseHelper.createInventoryItem(inventoryItem);
+
+        boolean insertData = databaseHelper.createInventoryItem(inventoryItem, categoryId);
 
         if (insertData) {
             Snackbar.make(view, inventoryItem.getName() + " was added to list", Snackbar.LENGTH_LONG)
