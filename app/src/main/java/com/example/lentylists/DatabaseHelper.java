@@ -251,4 +251,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return returnList;
     }
+
+    public String readCategoryNameById(int categoryId) {
+        Log.d(TAG, "readCategoryNameById was called");
+
+
+        String query = "SELECT " + COL_CATEGORY_NAME + " FROM " + CATEGORY_TABLE + " WHERE " + COL_CATEGORY_ID + " = " + categoryId;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String categoryName = "LentyLists";
+
+        if (db == null) {
+            Log.e(TAG, "Couldn't instantiate database instance to retrieve CategoryList");
+            return categoryName;
+        }
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (!cursor.moveToFirst()) {
+            Log.d(TAG, "There were no categories with id of " + categoryId);
+            return categoryName;
+        }
+
+        do {
+            categoryName = cursor.getString(0);
+
+        } while (cursor.moveToNext());
+
+        cursor.close();
+        db.close();
+        return categoryName;
+
+    }
 }

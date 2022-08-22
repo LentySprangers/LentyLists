@@ -53,6 +53,8 @@ public class InventoryItemListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         categoryId = intent.getIntExtra("CategoryId", 0);
+        String categoryName = databaseHelper.readCategoryNameById(categoryId);
+        getSupportActionBar().setTitle(categoryName);
         showInventoryItemsInRecyclerView(categoryId);
 
         mFabAddInventoryItem.setOnClickListener(new View.OnClickListener() {
