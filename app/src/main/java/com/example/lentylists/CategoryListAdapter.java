@@ -76,7 +76,9 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         position = holder.getAdapterPosition();
         Category category = categories.get(position);
         holder.categoryNameTextView.setText(category.getName());
-        holder.itemCountTextView.setText("Items: " + category.getItemCount());
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        int itemCount = databaseHelper.readInventoryItemByCategoryID(category.getId()).size();
+        holder.itemCountTextView.setText("Items: " + itemCount);
 
         holder.categoryCardView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.recyclerview_anim));
 
